@@ -1,21 +1,56 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
     <title>Proton IPFS</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
   </head>
 
   <body>
-    <form>
-    <input type="file" id="lefile" name="file">
-    <button id="encrypt">ENCRYPT</button>
-    <button id="read">READ</button>
-    </form>
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="#">Home</a></li>
+            <li role="presentation"><a href="#">About</a></li>
+            <li role="presentation"><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Proton ipfs</h3>
+      </div>
 
-    <script type='text/javascript' src='./js/jquery-2.1.4.min.js'></script>
-    <script type='text/javascript' src='./js/openpgp.min.js'></script>
-    <script type='text/javascript' src='./js/ipfsapi.min.js'></script>
-    <script type='text/javascript' src='./js/main.js'></script>
+      <div class="jumbotron">
+        <h1>Proton ipfs</h1>
+        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        <form>
+          <label for="recipient">
+            Recipient:
+            <input id="recipient" type="text" name="recipient"/>
+          </label>
+          <button class="btn btn-lg btn-success" id="search">SEARCH</button>
+          <input type="file" id="file" name="file">
+          <button class="btn btn-lg btn-success" id="encrypt">ENCRYPT</button>
+        </form>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 2015 Protonipfs, Inc.</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+
+    <script type="text/javascript" src="./js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/openpgp.min.js"></script>
+    <script type="text/javascript" src="./js/ipfsapi.min.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
   </body>
 
 </html>

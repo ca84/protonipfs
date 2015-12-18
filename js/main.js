@@ -1,48 +1,51 @@
-var text = '';
+var hkp = new openpgp.HKP('https://pgp.mit.edu');
+var ipfs = ipfsAPI('localhost', '5001');
+var key;
 
-function read (e) {
+function search (e) {
   e.preventDefault();
 
-  var file = $('#lefile').get(0).files[0];
+  hkp.lookup({
+    query: $('#recipient').val()
+  }).then(function(key_found) {
+    key = key_found;
+  });
+}
+
+function read () {
+  var deferred = jQuery.Deferred();
+  var file = $('#file').get(0).files[0];
   var reader = new FileReader();
 
   reader.onload = function(el) {
-     text = el.target.result;
+    deferred.resolve(el.target.result);
   };
 
   reader.readAsText(file);
+
+  return deferred;
 }
 
 function encrypt (e) {
   e.preventDefault();
 
-  var hkp = new openpgp.HKP('https://pgp.mit.edu');
-  hkp.lookup({
-      query: 'fcsonline@gmail.com'
-  }).then(function(key) {
-      var publicKey = openpgp.key.readArmored(key);
-      console.log(publicKey);
-      openpgp.encryptMessage(publicKey.keys, text).then(function(pgpMessage) {
-          // success
-          console.log(pgpMessage);
-          var ipfs = window.ipfsAPI('localhost', '5001');
-          var files = [new ipfs.Buffer(pgpMessage)];
+  var publicKey = openpgp.key.readArmored(key);
 
-          ipfs.add(files, function(err, file) {
-              if(err || !file) return console.error(err)
+  read()
+  .then(function (text) {
+    openpgp.encryptMessage(publicKey.keys, text).then(function(pgpMessage) {
+      var files = [new ipfs.Buffer(pgpMessage)];
 
-              console.log(file.Hash)
-              console.log(file.Name)
-          })
-      }).catch(function(error) {
-          // failure
+      ipfs.add(files, function(err, file) {
+        if(err || !file) return console.error(err)
+
+        console.log(file.Hash)
       });
+    });
   });
-
-  return false;
 }
 
 $(document).ready(function () {
+  $('#search').click(search);
   $('#encrypt').click(encrypt);
-  $('#read').click(read);
 });
